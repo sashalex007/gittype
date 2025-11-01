@@ -59,18 +59,23 @@ impl StageTracker {
 
     /// Set the start time manually for precise timing control
     pub fn set_start_time(&mut self, start_time: Instant) {
-        self.start_time = Some(start_time);
+        // self.start_time = Some(start_time);
+        self.start_time = None;
     }
 
     pub fn record(&mut self, input: StageInput) {
         match input {
             StageInput::Start => {
                 // Only set start_time if not already set (to preserve manually set time)
+                // if self.start_time.is_none() {
+                //     self.start_time = Some(Instant::now());
+                // }
+            }
+            StageInput::Keystroke { ch, position } => {
                 if self.start_time.is_none() {
                     self.start_time = Some(Instant::now());
                 }
-            }
-            StageInput::Keystroke { ch, position } => {
+
                 if self.recorded_duration.is_some() {
                     return;
                 }
